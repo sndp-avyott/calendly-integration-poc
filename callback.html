@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendly OAuth Callback</title>
+</head>
+<body>
+    <h2>Calendly OAuth Callback</h2>
+    <p>Logging request parameters...</p>
+    <pre id="log"></pre>
+
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            let logData = {};
+            
+            // Loop through all parameters and store them in logData
+            params.forEach((value, key) => {
+                logData[key] = value;
+            });
+
+            // Print to console and display on the page
+            console.log("Received OAuth callback data:", logData);
+            document.getElementById("log").innerText = JSON.stringify(logData, null, 2);
+        }
+
+        // Execute on page load
+        window.onload = getQueryParams;
+    </script>
+</body>
+</html>
