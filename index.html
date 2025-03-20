@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendly Integration POC</title>
+</head>
+<body>
+    <p>Authorize Avyott to integrate Calendly and manage scheduling on your behalf.</p>
+    <button id="authorise-btn">Authorize</button>
+</body>
+
+<script>
+    // Configuration Variables (Modify these as needed)
+    const CLIENT_ID = "XyFj0DRqlRfgdes34aGhwkXTqwKX39NN9-HbmA_MFQA";
+    const REDIRECT_URI = "https://8c76-14-142-143-82.ngrok-free.app/";
+    const CODE_CHALLENGE = ""; // Empty means it won't be included
+    const CODE_CHALLENGE_METHOD = "S256"; // Optional
+
+    // Function to build query parameters dynamically
+    function buildQueryParams(params) {
+        return Object.entries(params)
+            .filter(([_, value]) => value) // Only include non-empty values
+            .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+            .join("&");
+    }
+
+    // Base parameters
+    const baseParams = {
+        client_id: CLIENT_ID,
+        response_type: "code",
+        redirect_uri: REDIRECT_URI,
+    };
+
+    // Optional parameters (added only if not empty)
+    const optionalParams = {
+        code_challenge_method: CODE_CHALLENGE_METHOD,
+        code_challenge: CODE_CHALLENGE
+    };
+
+    // Construct final authorization URL
+    const authUrl = `https://auth.calendly.com/oauth/authorize?${buildQueryParams({...baseParams, ...optionalParams})}`;
+
+    // Handle Authorization
+    function handleAuthorise() {
+        console.log("Redirecting to Calendly Auth:", authUrl);
+        window.location.href = authUrl; // Redirect to Calendly authorization page
+    }
+
+    // Attach event listener to the button
+    document.getElementById("authorise-btn").addEventListener("click", handleAuthorise);
+</script>
+
+</html>
